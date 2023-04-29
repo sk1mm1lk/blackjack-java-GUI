@@ -1,0 +1,41 @@
+┏━┓╻ ╻╻  ┏━╸┏━┓
+┣┳┛┃ ┃┃  ┣╸ ┗━┓
+╹┗╸┗━┛┗━╸┗━╸┗━┛
+
+Players:
+    1 - 5
+
+Betting:
+    All bets are against the house, not other players.
+    Without betting you can win a maximum of 10 points and lose 0 points
+
+Winning conditions:
+    To win a round your hand must score higher than the house's hand
+    A hand is scored by summing up the values of each card.
+    Do not go over a score of 21 or you will "bust" and lose the round.
+
+Gameplay:
+    Betting Stage:
+        Each player is asked whether they would like to place a bet.
+        Bets can be from 0 points to all the points a player has.
+      
+    Starting Stage:
+        Each player is dealt the first two card of their hand.
+        The house is dealt the first two cards of its hand.
+        Players may already bust at this stage.
+
+    Adding Cards Stage:
+        Each player is allowed to draw more cards until they bust.
+        Players may stop drawing cards at any time.
+        The house will stop drawing cards once it has reached 16 or higher.
+
+    Scoring Stage:
+        Each hand is scored based on the cards.
+        The hand is compared to the house and the higher hand under 21 wins.
+    
+    Rewarding Stage:
+        A winning player will receive 10 points + their bet.
+        If no bet was placed, the reward is only 10 points.
+        Losing players will lose the amount they bet
+        If no bet was placed, no points are lost
+
