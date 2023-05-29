@@ -7,17 +7,18 @@ package yhd6147.blackjackgui;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- *
  * @author yhd6147
  */
-public class LoginPanel extends BlackJackPanel
+public class LoginPanel extends JPanel implements Quitable
 {
     
     // === VARIABLES ==========================================================
@@ -43,7 +44,7 @@ public class LoginPanel extends BlackJackPanel
     
     public LoginPanel(BlackJackViewGUI view)
     {
-        super();
+        super(new GridBagLayout());
         this.view = view;
         this.c = new GridBagConstraints();
         
@@ -102,8 +103,7 @@ public class LoginPanel extends BlackJackPanel
         }
     }
     
-    @Override
-    protected void addComponent(Component component, int x, int y, int width)
+    private void addComponent(Component component, int x, int y, int width)
     {
         this.c.fill = GridBagConstraints.HORIZONTAL;
 	this.c.gridx = x;
