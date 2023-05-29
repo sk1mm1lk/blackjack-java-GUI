@@ -1,18 +1,9 @@
 package yhd6147.blackjackgui;
 
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  * @author yhd6147
@@ -25,22 +16,14 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     private BlackJackGUI   app;
     
     // GUI Components
-    //private JPanel     startPage;
+    private JPanel     startPanel;
+    private JPanel     rulesPanel;
+    private JPanel     scoreboardPanel;
     private JPanel     loginPanel;
     private JPanel     gamePanel;
-    private GridBagConstraints c;
     
-    private JLabel     titleLogin;
-    private JLabel     titleGame;
-    private JTextField nameInput;
-    private JTextField passInput;
-    private JLabel     loginState;
-    private JLabel     usernameLabel;
-    private JLabel     passwordLabel;
-    
-    private JButton    loginButton;
-    private JButton    quitButtonLogin;
-    private JButton    quitButtonGame;
+    // To keep track of quitting the game
+    private boolean isStartPanel;
     
     // === CONSTRUCTOR ========================================================
     
@@ -61,36 +44,79 @@ public class BlackJackViewGUI extends JFrame implements Quitable
         
         this.setSize(600, 400);
         
-        this.loginPanel = new LoginPanel(this);
-        this.gamePanel  = new GamePanel(this);
+        this.startPanel      = new StartPanel(this);
+        //this.rulesPanel      = new RulesPanel(this);
+        this.scoreboardPanel = new ScoreboardPanel(this);
+        this.loginPanel      = new LoginPanel(this);
+        this.gamePanel       = new GamePanel(this);
         
-        this.add(this.loginPanel);
+        this.add(this.startPanel);
+        this.isStartPanel = true;
     }
     
     // === METHODS ============================================================
     
-    public void openGamePanel()
+    public void openStartPanel()
     {
-        // Removes the login panel and starts the game panel
+        // Removes the other panels and starts the start panel
         this.getContentPane().removeAll();
-        this.add(this.gamePanel);
+        this.add(this.startPanel);
         this.revalidate();
         this.repaint();
+        this.isStartPanel = true;
     }
     
-    private void openLoginPanel()
+    public void openRulesPanel()
     {
-        // Removes the game panel and starts the game panel
+        // Removes the other panels and starts the start panel
+        this.getContentPane().removeAll();
+        this.add(this.rulesPanel);
+        this.revalidate();
+        this.repaint();
+        this.isStartPanel = false;
+    }
+    
+    public void openScoreboardPanel()
+    {
+        // Removes the other panels and starts the start panel
+        this.getContentPane().removeAll();
+        this.add(this.scoreboardPanel);
+        this.revalidate();
+        this.repaint();
+        this.isStartPanel = false;
+    }
+    
+    public void openLoginPanel()
+    {
+        // Removes the other panels and starts the login panel
         this.getContentPane().removeAll();
         this.add(this.loginPanel);
         this.revalidate();
         this.repaint();
+        this.isStartPanel = false;
+    }
+    
+    public void openGamePanel()
+    {
+        // Removes the other panels and starts the game panel
+        this.getContentPane().removeAll();
+        this.add(this.gamePanel);
+        this.revalidate();
+        this.repaint();
+        this.isStartPanel = false;
     }
     
     @Override
     public void quit()
     {
         // This method is responsible for making sure to game ends correctly
-        System.exit(0);
+        if (this.isStartPanel)
+        {
+            System.exit(0);
+        }
+        else
+        {
+            this.openStartPanel();
+        }
     }
 }

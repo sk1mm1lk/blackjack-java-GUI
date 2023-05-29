@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements Quitable
     public GamePanel(BlackJackViewGUI view)
     {
         super(new GridBagLayout());
+        
         this.view = view;
         this.c = new GridBagConstraints();
         

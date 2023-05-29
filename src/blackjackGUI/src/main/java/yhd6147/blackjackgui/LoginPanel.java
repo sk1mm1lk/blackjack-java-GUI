@@ -45,10 +45,11 @@ public class LoginPanel extends JPanel implements Quitable
     public LoginPanel(BlackJackViewGUI view)
     {
         super(new GridBagLayout());
+        
         this.view = view;
         this.c = new GridBagConstraints();
         
-        this.titleLabel = new JLabel("Dudov's BlackJack");
+        this.titleLabel = new JLabel("Log into your account");
         // TODO find a better way to change font.
         this.titleLabel.setFont(new Font(this.titleLabel.getFont().getName(), Font.PLAIN, this.titleLabel.getFont().getSize()*2));
         this.loginStatusLabel = new JLabel("Enter your username and password");
