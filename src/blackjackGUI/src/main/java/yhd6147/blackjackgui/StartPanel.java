@@ -127,7 +127,7 @@ public class StartPanel extends JPanel implements Quitable
     {
         if (this.view != null)
         {
-            //this.view.openRulesPanel();
+            this.view.openRulesPanel();
         }
     }
     

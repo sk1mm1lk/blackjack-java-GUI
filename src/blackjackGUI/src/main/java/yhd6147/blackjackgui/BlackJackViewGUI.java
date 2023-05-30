@@ -45,7 +45,7 @@ public class BlackJackViewGUI extends JFrame implements Quitable
         this.setSize(600, 400);
         
         this.startPanel      = new StartPanel(this);
-        //this.rulesPanel      = new RulesPanel(this);
+        this.rulesPanel      = new RulesPanel(this);
         this.scoreboardPanel = new ScoreboardPanel(this);
         this.loginPanel      = new LoginPanel(this);
         this.gamePanel       = new GamePanel(this);
