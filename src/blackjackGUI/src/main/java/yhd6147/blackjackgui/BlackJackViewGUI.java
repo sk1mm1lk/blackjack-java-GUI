@@ -79,6 +79,7 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     public void openScoreboardPanel()
     {
         // Removes the other panels and starts the start panel
+        ((ScoreboardPanel) this.scoreboardPanel).updateScores();
         this.getContentPane().removeAll();
         this.add(this.scoreboardPanel);
         this.revalidate();
@@ -104,6 +105,11 @@ public class BlackJackViewGUI extends JFrame implements Quitable
         this.revalidate();
         this.repaint();
         this.isStartPanel = false;
+    }
+    
+    public String getScoreboardScores()
+    {
+        return this.model.getScoreboard().displayScoreboard().replace(",", " --> ");
     }
     
     @Override

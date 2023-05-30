@@ -133,7 +133,10 @@ public class StartPanel extends JPanel implements Quitable
     
     private void scoreboard()
     {
-        // TODO display scoreboard panel
+        if (this.view != null)
+        {
+            this.view.openScoreboardPanel();
+        }
     }
     
     private void addPlayer()
