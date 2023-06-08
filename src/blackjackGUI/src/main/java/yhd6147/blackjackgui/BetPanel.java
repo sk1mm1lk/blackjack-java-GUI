@@ -40,13 +40,12 @@ public class BetPanel extends JPanel implements Quitable
         this.view = view;
         this.c = new GridBagConstraints();
         
-        this.titleLabel = new JLabel("Time to bet");
-        // TODO find a better way to change font.
-        this.titleLabel.setFont(new Font(this.titleLabel.getFont().getName(), Font.PLAIN, this.titleLabel.getFont().getSize()*2));
         this.currentPlayerLabel = new JLabel(getCurrentPlayerName());
+        this.currentPlayerLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         
         this.playerBet = 0;
-        this.playerBetLabel = new JLabel("" + this.playerBet);
+        this.playerBetLabel = new JLabel("Betting: " + this.playerBet);
+        this.playerBetLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         
         this.increaseButton  = new JButton("+1");
         this.decreaseButton  = new JButton("-1");
@@ -71,12 +70,11 @@ public class BetPanel extends JPanel implements Quitable
             }
         });
         
-        addComponent(this.titleLabel,         0,0,3);
-        addComponent(this.currentPlayerLabel, 0,1,3);
+        addComponent(this.currentPlayerLabel, 0,0,2);
+        addComponent(this.playerBetLabel,     0,1,2);
         addComponent(this.decreaseButton,     0,2,1);
-        addComponent(this.increaseButton,     2,2,1);
-        addComponent(this.playerBetLabel,     1,2,1);
-        addComponent(this.quitButton,         0,3,3);
+        addComponent(this.increaseButton,     1,2,1);
+        addComponent(this.quitButton,         0,3,2);
         
         this.updatePanel();
     }
@@ -102,6 +100,14 @@ public class BetPanel extends JPanel implements Quitable
         if (currentPlayer != null)
             return currentPlayer.getName();
         return "No Name";
+    }
+    
+    public int getCurrentPlayerMax()
+    {
+        Player currentPlayer = this.getCurrentPlayer();
+        if (currentPlayer != null)
+            return currentPlayer.getScore();
+        return 0;
     }
     
     private boolean canIncrease()
@@ -152,9 +158,9 @@ public class BetPanel extends JPanel implements Quitable
     public void updatePanel()
     {
         // Updates the panel values
-        this.currentPlayerLabel.setText(getCurrentPlayerName());
+        this.currentPlayerLabel.setText(this.getCurrentPlayerName());
+        this.playerBetLabel.setText("Betting: " + this.playerBet + "/" + this.getCurrentPlayerMax());
         
-        this.playerBetLabel.setText("" + this.playerBet);
         if (!canDecrease())
             this.decreaseButton.setEnabled(false);
         else

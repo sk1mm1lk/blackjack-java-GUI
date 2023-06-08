@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 
 
 /**
@@ -54,15 +56,10 @@ public class StartPanel extends JPanel implements Quitable
         this.view = view;
         this.c = new GridBagConstraints();
         
-        this.titleLabel = new JLabel("Welcome to Dudov's BlackJack");
-        // TODO find a better way to change font.
-        this.titleLabel.setFont(new Font(this.titleLabel.getFont().getName(), Font.PLAIN, this.titleLabel.getFont().getSize()*2));
-        this.statusLabel  = new JLabel("Not enough players to start");
-        this.playingLabel = new JLabel("Currently Playing:");
+        this.titleLabel = new JLabel("Dudov's BlackJack", SwingConstants.CENTER);
+        this.titleLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        this.statusLabel  = new JLabel("Not enough players to start", SwingConstants.CENTER);
         
-        // TODO change text area to a list instead with an add and remove button
-        //this.playersPlaying = new JTextArea("");
-        //this.playersPlaying.setEditable(false);
         this.listModel = new DefaultListModel();
         this.playingList = new JList(this.listModel);
         this.playingList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -73,6 +70,9 @@ public class StartPanel extends JPanel implements Quitable
         this.removePlayerButton = new JButton("Remove Player");
         this.startButton        = new JButton("Start");
         this.quitButton         = new JButton("Quit");
+        
+        this.startButton.setEnabled(false);
+        this.removePlayerButton.setEnabled(false);
         
         this.rulesButton.addActionListener(new ActionListener() {
             @Override
@@ -104,6 +104,7 @@ public class StartPanel extends JPanel implements Quitable
                 start();
             }
         });
+        this.startButton.setEnabled(false);
         this.quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,18 +113,19 @@ public class StartPanel extends JPanel implements Quitable
         });
         
         addComponent(this.titleLabel,         0,0,2);
-        addComponent(this.rulesButton,        0,1,1);
-        addComponent(this.scoreboardButton,   1,1,1);
-        addComponent(this.statusLabel,        0,2,2);
+        addComponent(this.statusLabel,        0,1,2);
         
-        addComponent(this.playingLabel,       0,3,2);
-        //addComponent(this.playersPlaying,     0,4,2);
-        addComponent(this.playingList,     0,4,2);
-        addComponent(this.addPlayerButton,    0,5,1);
-        addComponent(this.removePlayerButton, 1,5,1);
+        addComponent(this.playingList,        0,2,2);
         
-        addComponent(this.startButton,        0,6,1);
-        addComponent(this.quitButton,         1,6,1);
+        addComponent(this.addPlayerButton,    0,3,1);
+        addComponent(this.removePlayerButton, 1,3,1);
+        addComponent(this.startButton,        0,4,2);
+        
+        this.c.insets = new Insets(30,0,0,0);
+        addComponent(this.rulesButton,        0,5,1);
+        addComponent(this.scoreboardButton,   1,5,1);
+        this.c.insets = new Insets(0,0,0,0);
+        addComponent(this.quitButton,         0,6,2);
     }
     
     // === METHODS ============================================================
@@ -172,20 +174,43 @@ public class StartPanel extends JPanel implements Quitable
         
         if (nPlayers > 0 && nPlayers <= 5)
         {
-            this.statusLabel.setText("");
+            this.statusLabel.setText("Currently Playing");
+            this.startButton.setEnabled(true);
             
             for (int i = 0; i < playerList.length; i++)
             {
                 listModel.addElement(playerList[i].getName());
             }
         }
-        else if (nPlayers > 5)
+        
+        if (nPlayers >= 5) // Max or more
         {
-            this.statusLabel.setText("Too many players to start game");
+            // No more adding players
+            this.addPlayerButton.setEnabled(false);
+            this.removePlayerButton.setEnabled(true);
+            
+            if (nPlayers > 5)
+            {
+                // This shouldn't happen as there is a check in the model
+                this.statusLabel.setText("Too many players to start game");
+                this.startButton.setEnabled(false);
+            }
         }
-        else
+        else // Less than max
         {
-            this.statusLabel.setText("Not enough players to start game");
+            // Can add more players
+            this.addPlayerButton.setEnabled(true);
+            
+            if (nPlayers > 0)
+            {
+                this.removePlayerButton.setEnabled(true);
+            }
+            else // Zero players
+            {
+                this.statusLabel.setText("Not enough players to start game");
+                this.startButton.setEnabled(false);
+                this.removePlayerButton.setEnabled(false);
+            }
         }
     }
     

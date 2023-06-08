@@ -39,7 +39,7 @@ public class ScoreboardPanel extends JPanel implements Quitable
         this.scoreboardTextArea.setEditable(false);
         this.scoreboardScrollPane = new JScrollPane(this.scoreboardTextArea);
         
-        this.quitButton = new JButton("Back");
+        this.quitButton = new JButton("Back to main menu");
         
         this.quitButton.addActionListener(new ActionListener() {
             @Override
