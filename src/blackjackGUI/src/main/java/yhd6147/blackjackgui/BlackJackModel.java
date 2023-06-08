@@ -21,6 +21,9 @@ public class BlackJackModel
     private Deck deck;
     private int nPlayers;
     private Player currentPlayer;
+    private int currentPlayerIndex;
+    
+    private boolean isGameOver;
     
     // === CONSTRUCTOR ========================================================
 
@@ -32,13 +35,43 @@ public class BlackJackModel
         
         this.players = new ArrayList<Player>();
         this.nPlayers = 0;
-        this.currentPlayer = null; // TODO
+        
+        this.currentPlayerIndex = 0;
+        this.currentPlayer = null;
 
         this.deck = new Deck();
         this.deck.shuffle();
+        
+        this.isGameOver = false;
     }
 
     // === METHODS ============================================================
+    
+    public void startGame()
+    {
+        // Start the game with the correct values
+        this.currentPlayerIndex = 0;
+        this.currentPlayer = this.players.get(this.currentPlayerIndex);
+        this.isGameOver = false;
+        
+        this.deck.reset();
+        this.deck.shuffle();
+        
+        this.house.getHand().clearHand();
+
+        Iterator iter = this.players.iterator();
+        Player current;
+        
+        while(iter.hasNext())
+        {
+            current = (Player) iter.next();
+            if (current != null)
+            {
+                current.getHand().clearHand();
+                current.setBet(0);
+            }
+        }
+    }
     
     public void setPlayer(String playerName)
     {
@@ -56,8 +89,80 @@ public class BlackJackModel
     public Player getCurrentPlayer()
     {
         // Returns current player
-        // TODO
         return this.currentPlayer;
+    }
+    
+    public Player setCurrentPlayer(String playerName)
+    {
+        Iterator iter = this.players.iterator();
+        Player current = null;
+
+        boolean isFound = false;
+
+        while(iter.hasNext() && !isFound)
+        {
+            current = (Player) iter.next();
+            if (current.getName().equals(playerName))
+            {
+                return current;
+            }
+        }
+
+        return null;
+    }
+    
+    public void nextPlayer()
+    {
+        // Sets the current player to the next player
+        this.currentPlayerIndex++;
+        
+        if (this.currentPlayerIndex < this.nPlayers)
+        {
+            this.currentPlayer = this.players.get(this.currentPlayerIndex);
+        }
+        else if (this.currentPlayerIndex == this.nPlayers)
+        {
+            this.currentPlayer = this.house;
+        }
+        else
+        {
+            this.isGameOver = true;
+        }
+    }
+    
+    public boolean canDraw()
+    {
+        // Returns true if the current player is allowed to draw another card
+        if (this.currentPlayer == null)
+        {
+            return false;
+        }
+        return this.currentPlayer.getHand().getValue() < 21;
+    }
+    
+    public boolean isBust()
+    {
+        if (this.currentPlayer != null)
+        {
+            return this.currentPlayer.getHand().isBust();
+        }
+        
+        return true;
+    }
+    
+    public void drawCard()
+    {
+        this.drawCard(this.currentPlayer);
+    }
+    
+    public int handValue()
+    {
+        if (this.currentPlayer != null)
+        {
+            return this.currentPlayer.getHand().getValue();
+        }
+        
+        return 0;
     }
     
     public Player getPlayer(int playerIndex)
@@ -115,7 +220,6 @@ public class BlackJackModel
     {
         // TODO
         this.setPlayer(username);
-        System.out.println(this.players);
     }
    
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -145,11 +249,21 @@ public class BlackJackModel
         }
         return null;
     }
+    
+    public boolean isHouseTurn()
+    {
+        return this.currentPlayerIndex == this.nPlayers;
+    }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     
     public Card drawCard(Player player)
     {
+        if (player == null)
+        {
+            return null;
+        }
+        
         // Draws a card from the deck into the hand of the player
         if (!this.deck.isEmpty() && !player.getHand().isBust())
         {
@@ -157,6 +271,16 @@ public class BlackJackModel
             player.getHand().addCard(drawnCard);
             return drawnCard;
         }
+        return null;
+    }
+    
+    public Card[] getCardTable()
+    {
+        if (this.currentPlayer != null)
+        {
+            return this.currentPlayer.getHand().getCards();
+        }
+        
         return null;
     }
 
@@ -168,27 +292,14 @@ public class BlackJackModel
         return this.scoreboard;
     }
     
-    public void resetGame()
+    public boolean isGameOver()
     {
-        // Resets the deck, house and players
-        
-        this.deck.reset();
-        this.deck.shuffle();
-        
-        this.house.getHand().clearHand();
-
-        Iterator iter = this.players.iterator();
-        Player current;
-        
-        while(iter.hasNext())
-        {
-            current = (Player) iter.next();
-            if (current != null)
-            {
-                current.getHand().clearHand();
-                current.setBet(0);
-            }
-        }
+        return this.isGameOver;
+    }
+    
+    public void endGame()
+    {
+        this.isGameOver = true;
     }
     
     public int scorePlayer(Player player)
@@ -252,5 +363,15 @@ public class BlackJackModel
         {} // Nothing happens
         
         return 0;
+    }
+    
+    public void scoreGame()
+    {
+        // Displays the scoring results for every player who scored or lost points
+        System.out.println("\n========== SCORING ==========");
+        for (Player player : this.getPlayers())
+        {
+            this.scorePlayer(player);
+        }
     }
 }

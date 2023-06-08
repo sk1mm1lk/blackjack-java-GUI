@@ -49,7 +49,6 @@ public class BlackJackViewGUI extends JFrame implements Quitable
         this.rulesPanel      = new RulesPanel(this);
         this.scoreboardPanel = new ScoreboardPanel(this);
         this.loginPanel      = new LoginPanel(this);
-        this.gamePanel       = new GamePanel(this);
         
         this.add(this.startPanel);
         this.isStartPanel = true;
@@ -68,6 +67,12 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     }
     
     // === METHODS ============================================================
+    
+    public void startGame()
+    {
+        this.gamePanel = new GamePanel(this);
+        this.openGamePanel();
+    }
     
     public void openPanel(JPanel panel)
     {

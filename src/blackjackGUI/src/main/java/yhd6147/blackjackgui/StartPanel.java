@@ -157,7 +157,6 @@ public class StartPanel extends JPanel implements Quitable
         if (nPlayers > 0)
         {
             String playerName = (String) this.playingList.getSelectedValue();
-            System.out.println(playerName);
             this.view.getModel().removePlayer(playerName);
         }
         
@@ -195,7 +194,7 @@ public class StartPanel extends JPanel implements Quitable
         // Starts game panel
         if (this.view.getModel().getNPlayers() > 0)
         {
-            this.view.openGamePanel();
+            this.view.startGame();
         }
     }
     
