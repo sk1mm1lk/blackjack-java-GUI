@@ -20,6 +20,7 @@ public class BlackJackModel
     private Player house;
     private Deck deck;
     private int nPlayers;
+    private Player currentPlayer;
     
     // === CONSTRUCTOR ========================================================
 
@@ -31,6 +32,7 @@ public class BlackJackModel
         
         this.players = new ArrayList<Player>();
         this.nPlayers = 0;
+        this.currentPlayer = null; // TODO
 
         this.deck = new Deck();
         this.deck.shuffle();
@@ -48,12 +50,43 @@ public class BlackJackModel
         
         Player newPlayer = this.scoreboard.getPlayer(playerName);
         this.players.add(newPlayer);
-        this.nPlayers ++;
+        this.nPlayers = this.players.size();
+    }
+    
+    public Player getCurrentPlayer()
+    {
+        // Returns current player
+        // TODO
+        return this.currentPlayer;
     }
     
     public Player getPlayer(int playerIndex)
     {
         return this.players.get(playerIndex);
+    }
+    
+    public void removePlayer(String playerName)
+    {
+        Iterator iter = this.players.iterator();
+        Player current = null;
+
+        boolean isFound = false;
+
+        while(iter.hasNext() && !isFound)
+        {
+            current = (Player) iter.next();
+            if (current.getName().equals(playerName))
+            {
+                isFound = true;
+            }
+        }
+
+        if (current != null)
+        {
+            this.players.remove(current);
+        }
+
+        this.nPlayers = this.players.size();
     }
     
     public Player[] getPlayers()
@@ -76,6 +109,13 @@ public class BlackJackModel
         {
             player.setBet(bet);
         }
+    }
+    
+    public void login(String username, String password)
+    {
+        // TODO
+        this.setPlayer(username);
+        System.out.println(this.players);
     }
    
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 

@@ -21,6 +21,7 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     private JPanel     scoreboardPanel;
     private JPanel     loginPanel;
     private JPanel     gamePanel;
+    private JPanel     betPanel;
     
     // To keep track of quitting the game
     private boolean isStartPanel;
@@ -54,62 +55,70 @@ public class BlackJackViewGUI extends JFrame implements Quitable
         this.isStartPanel = true;
     }
     
+    // === GETTERS AND SETTERS ================================================
+    
+    public BlackJackModel getModel()
+    {
+        return this.model;
+    }
+    
+    public String getScoreboardScores()
+    {
+        return this.model.getScoreboard().displayScoreboard().replace(",", " --> ");
+    }
+    
     // === METHODS ============================================================
+    
+    public void openPanel(JPanel panel)
+    {
+        this.getContentPane().removeAll();
+        this.add(panel);
+        this.revalidate();
+        this.repaint();
+        
+        if (panel == this.startPanel)
+            this.isStartPanel = true;
+        else
+            this.isStartPanel = false;
+    }
     
     public void openStartPanel()
     {
         // Removes the other panels and starts the start panel
-        this.getContentPane().removeAll();
-        this.add(this.startPanel);
-        this.revalidate();
-        this.repaint();
-        this.isStartPanel = true;
+        ((StartPanel) this.startPanel).updatePlayers();
+        this.openPanel(this.startPanel);
     }
     
     public void openRulesPanel()
     {
         // Removes the other panels and starts the start panel
-        this.getContentPane().removeAll();
-        this.add(this.rulesPanel);
-        this.revalidate();
-        this.repaint();
-        this.isStartPanel = false;
+        this.openPanel(this.rulesPanel);
     }
     
     public void openScoreboardPanel()
     {
         // Removes the other panels and starts the start panel
         ((ScoreboardPanel) this.scoreboardPanel).updateScores();
-        this.getContentPane().removeAll();
-        this.add(this.scoreboardPanel);
-        this.revalidate();
-        this.repaint();
-        this.isStartPanel = false;
+        this.openPanel(this.scoreboardPanel);
     }
     
     public void openLoginPanel()
     {
         // Removes the other panels and starts the login panel
-        this.getContentPane().removeAll();
-        this.add(this.loginPanel);
-        this.revalidate();
-        this.repaint();
-        this.isStartPanel = false;
+        this.openPanel(this.loginPanel);
     }
     
     public void openGamePanel()
     {
         // Removes the other panels and starts the game panel
-        this.getContentPane().removeAll();
-        this.add(this.gamePanel);
-        this.revalidate();
-        this.repaint();
-        this.isStartPanel = false;
+        this.openPanel(this.gamePanel);
     }
     
-    public String getScoreboardScores()
+    public void openBetPanel()
     {
-        return this.model.getScoreboard().displayScoreboard().replace(",", " --> ");
+        // Removes the other panels and starts the bet panel
+        this.betPanel = new BetPanel(this);
+        this.openPanel(this.betPanel);
     }
     
     @Override

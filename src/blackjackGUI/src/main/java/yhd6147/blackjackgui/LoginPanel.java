@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package yhd6147.blackjackgui;
 
 import java.awt.Component;
@@ -92,11 +88,14 @@ public class LoginPanel extends JPanel implements Quitable
         String username = this.usernameInput.getText();
         String password = this.passwordInput.getText();
         
+        this.usernameInput.setText("");
+        this.passwordInput.setText("");
+        
         if (!username.isBlank() && !password.isBlank())
         {
             // continue
-            //this.model.login(username, password);
-            this.view.openGamePanel();
+            this.view.getModel().login(username, password);
+            this.view.openStartPanel();
         }
         else
         {
