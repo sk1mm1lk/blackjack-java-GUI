@@ -1,17 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package yhd6147.blackjackgui;
 
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
@@ -22,10 +16,10 @@ public class RulesPanel extends JPanel implements Quitable
     // === VARIABLES ==========================================================
     
     private BlackJackViewGUI   view;
-    private GridBagConstraints c;
     private FileController     fc;
     
     private JTextArea rulesTextArea;
+    private JScrollPane rulesScrollPane;
     
     private JButton quitButton;
     
@@ -35,16 +29,16 @@ public class RulesPanel extends JPanel implements Quitable
     
     public RulesPanel(BlackJackViewGUI view)
     {
-        super(new GridBagLayout());
+        super(new BorderLayout());
         
         this.view = view;
-        this.c = new GridBagConstraints();
         this.fc = new FileController();
         
         this.initRules();
         
         this.rulesTextArea = new JTextArea(this.rulesText);
         this.rulesTextArea.setEditable(false);
+        this.rulesScrollPane = new JScrollPane(this.rulesTextArea);
         
         this.quitButton = new JButton("Back");
         
@@ -55,8 +49,8 @@ public class RulesPanel extends JPanel implements Quitable
             }
         });
         
-        this.addComponent(this.rulesTextArea, 0, 0, 2);
-        this.addComponent(this.quitButton, 1, 1, 1);
+        this.add(this.quitButton, BorderLayout.PAGE_START);
+        this.add(this.rulesScrollPane, BorderLayout.CENTER);
     }
     
     private void initRules()
@@ -94,16 +88,6 @@ public class RulesPanel extends JPanel implements Quitable
             this.rulesText += "       If you placed no bet and you lose, you don't lose any points";
             this.rulesText += "       If you placed a bet and you lose, you will only lose the amount you bet";
         }
-    }
-    
-    
-    private void addComponent(Component component, int x, int y, int width)
-    {
-        this.c.fill = GridBagConstraints.HORIZONTAL;
-	this.c.gridx = x;
-	this.c.gridy = y;
-        this.c.gridwidth = width;
-        this.add(component, c);
     }
 
     @Override

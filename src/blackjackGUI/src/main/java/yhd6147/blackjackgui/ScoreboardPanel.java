@@ -1,16 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package yhd6147.blackjackgui;
 
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
@@ -20,10 +15,10 @@ public class ScoreboardPanel extends JPanel implements Quitable
 {
     
     private BlackJackViewGUI   view;
-    private GridBagConstraints c;
     private FileController     fc;
     
     private JTextArea scoreboardTextArea;
+    private JScrollPane scoreboardScrollPane;
     
     private JButton quitButton;
     
@@ -33,16 +28,16 @@ public class ScoreboardPanel extends JPanel implements Quitable
     
     public ScoreboardPanel(BlackJackViewGUI view)
     {
-        super(new GridBagLayout());
+        super(new BorderLayout());
         
         this.view = view;
-        this.c = new GridBagConstraints();
         this.fc = new FileController();
         
         this.initScoreboard();
         
         this.scoreboardTextArea = new JTextArea(this.scoreboardText);
         this.scoreboardTextArea.setEditable(false);
+        this.scoreboardScrollPane = new JScrollPane(this.scoreboardTextArea);
         
         this.quitButton = new JButton("Back");
         
@@ -53,8 +48,8 @@ public class ScoreboardPanel extends JPanel implements Quitable
             }
         });
         
-        this.addComponent(this.scoreboardTextArea, 0, 0, 2);
-        this.addComponent(this.quitButton,         1, 1, 1);
+        this.add(this.quitButton, BorderLayout.PAGE_START);
+        this.add(this.scoreboardScrollPane, BorderLayout.CENTER);
     }
     
     private void initScoreboard()
@@ -77,15 +72,6 @@ public class ScoreboardPanel extends JPanel implements Quitable
     public void updateScores()
     {
         this.scoreboardTextArea.setText(this.scoreboardText + "\n" + this.view.getScoreboardScores());
-    }
-    
-    private void addComponent(Component component, int x, int y, int width)
-    {
-        this.c.fill = GridBagConstraints.HORIZONTAL;
-	this.c.gridx = x;
-	this.c.gridy = y;
-        this.c.gridwidth = width;
-        this.add(component, c);
     }
 
     @Override
