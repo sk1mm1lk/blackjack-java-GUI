@@ -30,7 +30,6 @@ public class BlackJackModelTest
     {
         this.model = new BlackJackModel();
         this.scoreboard = this.model.getScoreboard();
-        this.scoreboard.setFileName("testScoreboardFile.txt");
         this.model.login("TestPlayer1");
         this.model.login("TestPlayer2");
     }

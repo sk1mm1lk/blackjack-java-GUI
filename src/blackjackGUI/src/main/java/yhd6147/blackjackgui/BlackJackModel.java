@@ -30,7 +30,11 @@ public class BlackJackModel
     public BlackJackModel()
     {
         // Initialises scoreboard, players and the deck
-        this.scoreboard = new Scoreboard(SCORE_FILE_NAME);
+        this.scoreboard = new ScoreboardDB();
+        if (!((ScoreboardDB) this.scoreboard).isConnected())
+        {
+            this.scoreboard = new ScoreboardText(SCORE_FILE_NAME);
+        }
         this.house = new Player(",,, HOUSE ,,,");
         
         this.players = new ArrayList<Player>();
@@ -332,6 +336,15 @@ public class BlackJackModel
     {
         // Saves the scores to a file
         this.scoreboard.exportPlayers();
+    }
+    
+    public void closeScoreboard()
+    {
+        // If scoreboardDB is used, close the connection
+        if (this.scoreboard != null)
+        {
+            this.scoreboard.quit();
+        }
     }
     
     public boolean isGameOver()

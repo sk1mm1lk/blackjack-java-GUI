@@ -137,6 +137,7 @@ public class BlackJackViewGUI extends JFrame implements Quitable
         // This method is responsible for making sure the game ends correctly
         if (this.isStartPanel)
         {
+            this.model.closeScoreboard();
             System.exit(0);
         }
         else
