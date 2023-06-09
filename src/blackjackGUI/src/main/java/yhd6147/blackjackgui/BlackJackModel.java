@@ -94,6 +94,26 @@ public class BlackJackModel
         return this.players.get(playerIndex);
     }
     
+    public Player getPlayer(String playerName)
+    {
+        // Gets a player based on name
+        Iterator iter = this.players.iterator();
+        Player current = null;
+
+        boolean isFound = false;
+
+        while(iter.hasNext() && !isFound)
+        {
+            current = (Player) iter.next();
+            if (current.getName().equals(playerName))
+            {
+                return current;
+            }
+        }
+
+        return null;
+    }
+    
     public void removePlayer(String playerName)
     {
         // Removes player based on name
@@ -226,11 +246,16 @@ public class BlackJackModel
         return 0;
     }
     
-        public boolean login(String username, String password)
+    public boolean login(String username)
     {
-        // TODO
-        this.setPlayer(username);
-        return true;
+        // Adds player if not already added
+        if (this.getPlayer(username.replace("'", "")) == null)
+        {
+            this.setPlayer(username);
+            return true;
+        }
+        
+        return false;
     }
    
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -305,7 +330,8 @@ public class BlackJackModel
 
     public void saveScores()
     {
-        // TODO
+        // Saves the scores to a file
+        this.scoreboard.exportPlayers();
     }
     
     public boolean isGameOver()
@@ -384,7 +410,6 @@ public class BlackJackModel
     public void scoreGame()
     {
         // Displays the scoring results for every player who scored or lost points
-        System.out.println("\n========== SCORING ==========");
         for (Player player : this.getPlayers())
         {
             this.scorePlayer(player);

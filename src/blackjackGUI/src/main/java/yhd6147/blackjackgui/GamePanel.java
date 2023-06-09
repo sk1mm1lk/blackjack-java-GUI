@@ -276,6 +276,7 @@ public class GamePanel extends JPanel implements Quitable
         this.updateButtons(false, true);
         this.view.getModel().endGame();
         this.view.getModel().scoreGame();
+        this.view.getModel().saveScores();
         this.endTurnButton.setText("Go to scoreboard");
         this.startGameButton.setText("Play again");
         this.startGameButton.setVisible(true);

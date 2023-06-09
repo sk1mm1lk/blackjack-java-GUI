@@ -34,6 +34,11 @@ public class Scoreboard
     
     // === METHODS ============================================================
     
+    public void setFileName(String fileName)
+    {
+        this.fileName = fileName;
+    }
+    
     public Player getPlayer(String playerName)
     {
         // Returns the player object based on a player name as an argument

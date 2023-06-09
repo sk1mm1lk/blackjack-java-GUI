@@ -81,23 +81,23 @@ public class LoginPanel extends JPanel implements Quitable
         addComponent(this.loginStatusLabel,  0,1,3);
         
         addComponent(this.usernameLabel,     0,2,1);
-        addComponent(this.passwordLabel,     0,3,1);
+        //addComponent(this.passwordLabel,     0,3,1);
         
         addComponent(this.usernameInput,     1,2,2);
-        addComponent(this.passwordInput,     1,3,2);
-        addComponent(this.loginButton,       2,4,1);
-        addComponent(this.quitButton,        2,5,1);
+        //addComponent(this.passwordInput,     1,3,2);
+        addComponent(this.loginButton,       2,3,1);
+        addComponent(this.quitButton,        2,4,1);
     }
     
     private void login()
     {
         // Attempts to login the player
         String username = this.usernameInput.getText();
-        String password = this.passwordInput.getText();
+        //String password = this.passwordInput.getText();
         
-        if (!username.isBlank() && !password.isBlank())
+        if (!username.isBlank())
         {
-            if (this.view.getModel().login(username, password))
+            if (this.view.getModel().login(username))
             {
                 this.usernameInput.setText("");
                 this.passwordInput.setText("");
