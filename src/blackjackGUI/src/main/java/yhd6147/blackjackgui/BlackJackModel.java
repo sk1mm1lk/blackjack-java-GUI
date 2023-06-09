@@ -49,7 +49,7 @@ public class BlackJackModel
     
     public void startGame()
     {
-        // Start the game with the correct values
+        // Start the game by reseting all values
         this.currentPlayerIndex = 0;
         this.currentPlayer = this.players.get(this.currentPlayerIndex);
         this.isGameOver = false;
@@ -73,6 +73,8 @@ public class BlackJackModel
         }
     }
     
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
     public void setPlayer(String playerName)
     {
         // Adds a player by a specified name, consults the scoreboard for info
@@ -86,6 +88,61 @@ public class BlackJackModel
         this.nPlayers = this.players.size();
     }
     
+    public Player getPlayer(int playerIndex)
+    {
+        // Gets the player at index playerIndex
+        return this.players.get(playerIndex);
+    }
+    
+    public void removePlayer(String playerName)
+    {
+        // Removes player based on name
+        Iterator iter = this.players.iterator();
+        Player current = null;
+
+        boolean isFound = false;
+
+        while(iter.hasNext() && !isFound)
+        {
+            current = (Player) iter.next();
+            if (current.getName().equals(playerName))
+            {
+                isFound = true;
+            }
+        }
+
+        if (current != null)
+        {
+            this.players.remove(current);
+        }
+
+        this.nPlayers = this.players.size();
+    }
+    
+    public Player[] getPlayers()
+    {
+        // Returns a primitive array of all the players in the game
+        Player[] returnPlayers = new Player[this.nPlayers];
+        return this.players.toArray(returnPlayers);
+    }
+ 
+    public int getNPlayers()
+    {
+        // Returns the number of players in the game
+        return this.nPlayers;
+    }
+
+    public void setPlayerBet(Player player, int bet)
+    {
+        // Sets the bet of the player
+        if (player != null)
+        {
+            player.setBet(bet);
+        }
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
     public Player getCurrentPlayer()
     {
         // Returns current player
@@ -94,6 +151,7 @@ public class BlackJackModel
     
     public Player setCurrentPlayer(String playerName)
     {
+        // Sets the current player based on player's name
         Iterator iter = this.players.iterator();
         Player current = null;
 
@@ -139,9 +197,16 @@ public class BlackJackModel
         }
         return this.currentPlayer.getHand().getValue() < 21;
     }
+ 
+    public void drawCard()
+    {
+        // Draws a card for the current player
+        this.drawCard(this.currentPlayer);
+    }
     
     public boolean isBust()
     {
+        // Returns true if the current player's hand is a bust
         if (this.currentPlayer != null)
         {
             return this.currentPlayer.getHand().isBust();
@@ -149,14 +214,10 @@ public class BlackJackModel
         
         return true;
     }
-    
-    public void drawCard()
-    {
-        this.drawCard(this.currentPlayer);
-    }
-    
+
     public int handValue()
     {
+        // Returns the current player's hand value
         if (this.currentPlayer != null)
         {
             return this.currentPlayer.getHand().getValue();
@@ -165,61 +226,11 @@ public class BlackJackModel
         return 0;
     }
     
-    public Player getPlayer(int playerIndex)
-    {
-        return this.players.get(playerIndex);
-    }
-    
-    public void removePlayer(String playerName)
-    {
-        Iterator iter = this.players.iterator();
-        Player current = null;
-
-        boolean isFound = false;
-
-        while(iter.hasNext() && !isFound)
-        {
-            current = (Player) iter.next();
-            if (current.getName().equals(playerName))
-            {
-                isFound = true;
-            }
-        }
-
-        if (current != null)
-        {
-            this.players.remove(current);
-        }
-
-        this.nPlayers = this.players.size();
-    }
-    
-    public Player[] getPlayers()
-    {
-        // Returns a primitive array of all the players in the game
-        Player[] returnPlayers = new Player[this.nPlayers];
-        return this.players.toArray(returnPlayers);
-    }
- 
-    public int getNPlayers()
-    {
-        // Returns the number of players in the game
-        return this.nPlayers;
-    }
-
-    public void setPlayerBet(Player player, int bet)
-    {
-        // Sets the bet of the player
-        if (player != null)
-        {
-            player.setBet(bet);
-        }
-    }
-    
-    public void login(String username, String password)
+        public boolean login(String username, String password)
     {
         // TODO
         this.setPlayer(username);
+        return true;
     }
    
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -290,6 +301,11 @@ public class BlackJackModel
     {
         // Returns the scoreboard instance
         return this.scoreboard;
+    }
+
+    public void saveScores()
+    {
+        // TODO
     }
     
     public boolean isGameOver()

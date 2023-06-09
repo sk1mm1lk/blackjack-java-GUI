@@ -29,19 +29,23 @@ public class RulesPanel extends JPanel implements Quitable
     
     public RulesPanel(BlackJackViewGUI view)
     {
+        // Initialises the components for the panel
+
+        // Calls JPanel constructor
         super(new BorderLayout());
         
         this.view = view;
         this.fc = new FileController();
         
+        // Initialises the rules text
         this.initRules();
         
         this.rulesTextArea = new JTextArea(this.rulesText);
         this.rulesTextArea.setEditable(false);
         this.rulesScrollPane = new JScrollPane(this.rulesTextArea);
         
+        // Initialises the quit button
         this.quitButton = new JButton("Back");
-        
         this.quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,6 +53,7 @@ public class RulesPanel extends JPanel implements Quitable
             }
         });
         
+        // Adds the components to the panel using BorderLayout
         this.add(this.quitButton, BorderLayout.PAGE_START);
         this.add(this.rulesScrollPane, BorderLayout.CENTER);
     }
@@ -93,6 +98,7 @@ public class RulesPanel extends JPanel implements Quitable
     @Override
     public void quit()
     {
+        // Quits the panel
         if (this.view != null)
         {
             this.view.quit();

@@ -13,7 +13,6 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     // === VARIABLES ==========================================================
     
     private BlackJackModel model;
-    private BlackJackGUI   app;
     
     // GUI Components
     private JPanel     startPanel;
@@ -28,12 +27,12 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     
     // === CONSTRUCTOR ========================================================
     
-    public BlackJackViewGUI(BlackJackModel model, BlackJackGUI app)
+    public BlackJackViewGUI(BlackJackModel model)
     {
+        // Initialises the panel components
         this.model = model;
-        this.app   = app;
         
-        // Set the close operation and window closing listener
+        // Sets the close operation and window closing listener
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter()
         {
@@ -45,6 +44,8 @@ public class BlackJackViewGUI extends JFrame implements Quitable
         
         this.setSize(600, 400);
         
+        // Initialises all the panels that will be used
+        // Aside from Game panel and Bet panel
         this.startPanel      = new StartPanel(this);
         this.rulesPanel      = new RulesPanel(this);
         this.scoreboardPanel = new ScoreboardPanel(this);
@@ -58,11 +59,13 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     
     public BlackJackModel getModel()
     {
+        // Returns the model
         return this.model;
     }
     
     public String getScoreboardScores()
     {
+        // Returns the scoreboard scores
         return this.model.getScoreboard().displayScoreboard().replace(",", " --> ");
     }
     
@@ -70,12 +73,14 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     
     public void startGame()
     {
+        // Initialises a new game panel and opens it
         this.gamePanel = new GamePanel(this);
         this.openGamePanel();
     }
     
     public void openPanel(JPanel panel)
     {
+        // A basic implementation of opening another panel
         this.getContentPane().removeAll();
         this.add(panel);
         this.revalidate();
@@ -96,13 +101,13 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     
     public void openRulesPanel()
     {
-        // Removes the other panels and starts the start panel
+        // Removes the other panels and starts the rules panel
         this.openPanel(this.rulesPanel);
     }
     
     public void openScoreboardPanel()
     {
-        // Removes the other panels and starts the start panel
+        // Removes the other panels and starts the scoreboard panel
         ((ScoreboardPanel) this.scoreboardPanel).updateScores();
         this.openPanel(this.scoreboardPanel);
     }
@@ -121,7 +126,7 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     
     public void openBetPanel()
     {
-        // Removes the other panels and starts the bet panel
+        // Removes the other panels and starts a new bet panel
         this.betPanel = new BetPanel(this);
         this.openPanel(this.betPanel);
     }
@@ -129,7 +134,7 @@ public class BlackJackViewGUI extends JFrame implements Quitable
     @Override
     public void quit()
     {
-        // This method is responsible for making sure to game ends correctly
+        // This method is responsible for making sure the game ends correctly
         if (this.isStartPanel)
         {
             System.exit(0);

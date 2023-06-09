@@ -14,6 +14,8 @@ import javax.swing.JTextArea;
 public class ScoreboardPanel extends JPanel implements Quitable
 {
     
+    // === VARIABLES ==========================================================
+    
     private BlackJackViewGUI   view;
     private FileController     fc;
     
@@ -28,19 +30,23 @@ public class ScoreboardPanel extends JPanel implements Quitable
     
     public ScoreboardPanel(BlackJackViewGUI view)
     {
+        // Initialises the panel components
+
+        // Calls JPanel constructor
         super(new BorderLayout());
         
         this.view = view;
         this.fc = new FileController();
         
+        // Initialises the scoreboard text
         this.initScoreboard();
         
         this.scoreboardTextArea = new JTextArea(this.scoreboardText);
         this.scoreboardTextArea.setEditable(false);
         this.scoreboardScrollPane = new JScrollPane(this.scoreboardTextArea);
         
+        // Initialises the quit button and quit action
         this.quitButton = new JButton("Back to main menu");
-        
         this.quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,6 +54,7 @@ public class ScoreboardPanel extends JPanel implements Quitable
             }
         });
         
+        // Adds the components using BorderLayout
         this.add(this.quitButton, BorderLayout.PAGE_START);
         this.add(this.scoreboardScrollPane, BorderLayout.CENTER);
     }
@@ -71,12 +78,14 @@ public class ScoreboardPanel extends JPanel implements Quitable
     
     public void updateScores()
     {
+        // Update the scoreboard panel text
         this.scoreboardTextArea.setText(this.scoreboardText + "\n" + this.view.getScoreboardScores());
     }
 
     @Override
     public void quit()
     {
+        // Quits the panel
         if (this.view != null)
         {
             this.view.quit();

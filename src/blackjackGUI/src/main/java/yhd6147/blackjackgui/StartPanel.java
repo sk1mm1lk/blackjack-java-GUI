@@ -1,6 +1,5 @@
 package yhd6147.blackjackgui;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,11 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
@@ -33,7 +31,6 @@ public class StartPanel extends JPanel implements Quitable
     private JLabel playingLabel;
     private JLabel statusLabel;
     
-    //private JTextArea playersPlaying;
     private DefaultListModel listModel;
     private JList playingList;
     
@@ -48,22 +45,27 @@ public class StartPanel extends JPanel implements Quitable
     
     public StartPanel(BlackJackViewGUI view)
     {
+        // Initialises all the components for the start panel
+
+        // Calls JPanel constructor
         super(new GridBagLayout());
         
         this.view = view;
         this.c = new GridBagConstraints();
         
-        this.view = view;
-        this.c = new GridBagConstraints();
-        
+        // The label at the top of the screen
         this.titleLabel = new JLabel("Dudov's BlackJack", SwingConstants.CENTER);
         this.titleLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+        
+        // The label showing if game can start
         this.statusLabel  = new JLabel("Not enough players to start", SwingConstants.CENTER);
         
+        // The list of currently playing players
         this.listModel = new DefaultListModel();
         this.playingList = new JList(this.listModel);
         this.playingList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
+        // The buttons for interacting with the start panel
         this.rulesButton        = new JButton("Rules");
         this.scoreboardButton   = new JButton("Scoreboard");
         this.addPlayerButton    = new JButton("Add Player");
@@ -71,9 +73,11 @@ public class StartPanel extends JPanel implements Quitable
         this.startButton        = new JButton("Start");
         this.quitButton         = new JButton("Quit");
         
+        // Disabling the start and remove buttons as there are no players yet
         this.startButton.setEnabled(false);
         this.removePlayerButton.setEnabled(false);
         
+        // Initialising the button press action for each button
         this.rulesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -104,7 +108,6 @@ public class StartPanel extends JPanel implements Quitable
                 start();
             }
         });
-        this.startButton.setEnabled(false);
         this.quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,15 +115,15 @@ public class StartPanel extends JPanel implements Quitable
             }
         });
         
+        // Adding the top half of components to the panel
         addComponent(this.titleLabel,         0,0,2);
         addComponent(this.statusLabel,        0,1,2);
-        
         addComponent(this.playingList,        0,2,2);
-        
         addComponent(this.addPlayerButton,    0,3,1);
         addComponent(this.removePlayerButton, 1,3,1);
         addComponent(this.startButton,        0,4,2);
         
+        // Adding the bottom half of components to the panel
         this.c.insets = new Insets(30,0,0,0);
         addComponent(this.rulesButton,        0,5,1);
         addComponent(this.scoreboardButton,   1,5,1);
@@ -130,30 +133,15 @@ public class StartPanel extends JPanel implements Quitable
     
     // === METHODS ============================================================
     
-    private void rules()
-    {
-        if (this.view != null)
-        {
-            this.view.openRulesPanel();
-        }
-    }
-    
-    private void scoreboard()
-    {
-        if (this.view != null)
-        {
-            this.view.openScoreboardPanel();
-        }
-    }
-    
     private void addPlayer()
     {
+        // Opens the login panel to add another player
         this.view.openLoginPanel();
     }
-    
+
     private void removePlayer()
     {
-        // Removes player from list
+        // Removes selected player from the list
         int nPlayers = this.view.getModel().getNPlayers();
         
         if (nPlayers > 0)
@@ -164,16 +152,37 @@ public class StartPanel extends JPanel implements Quitable
         
         this.updatePlayers();
     }
+
+    private void rules()
+    {
+        // Opens the rules panel (used as the method for the rules button)
+        if (this.view != null)
+        {
+            this.view.openRulesPanel();
+        }
+    }
+    
+    private void scoreboard()
+    {
+        // Opens the scoreboard panel (used as the method for the scoreboard button)
+        if (this.view != null)
+        {
+            this.view.openScoreboardPanel();
+        }
+    }
     
     public void updatePlayers()
     {
+        // Updates the list representing the players in the game
         Player[] playerList = this.view.getModel().getPlayers();
         int nPlayers = this.view.getModel().getNPlayers();
         
+        // First clears the list
         this.listModel.clear();
         
         if (nPlayers > 0 && nPlayers <= 5)
         {
+            // If there are enough players then will add each player to the list
             this.statusLabel.setText("Currently Playing");
             this.startButton.setEnabled(true);
             
@@ -216,18 +225,19 @@ public class StartPanel extends JPanel implements Quitable
     
     private void start()
     {
-        // Starts game panel
+        // Starts game panel if there are enough players
         if (this.view.getModel().getNPlayers() > 0)
         {
             this.view.startGame();
         }
     }
     
-    private void addComponent(Component component, int x, int y, int width)
+    private void addComponent(JComponent component, int x, int y, int width)
     {
+        // Adds a component to the panel using a GridBagLayout
         this.c.fill = GridBagConstraints.HORIZONTAL;
-	this.c.gridx = x;
-	this.c.gridy = y;
+        this.c.gridx = x;
+        this.c.gridy = y;
         this.c.gridwidth = width;
         this.add(component, c);
     }
@@ -235,6 +245,7 @@ public class StartPanel extends JPanel implements Quitable
     @Override
     public void quit()
     {
+        // Quits out of the start panel (quits completely)
         if (this.view != null)
         {
             this.view.quit();

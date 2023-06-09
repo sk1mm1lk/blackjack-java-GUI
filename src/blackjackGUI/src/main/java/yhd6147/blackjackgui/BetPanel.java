@@ -1,12 +1,12 @@
 package yhd6147.blackjackgui;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -35,6 +35,9 @@ public class BetPanel extends JPanel implements Quitable
 
     public BetPanel(BlackJackViewGUI view)
     {
+        // Initialises the panel components
+
+        // Call the JPanel constructor
         super(new GridBagLayout());
         
         this.view = view;
@@ -49,8 +52,10 @@ public class BetPanel extends JPanel implements Quitable
         
         this.increaseButton  = new JButton("+1");
         this.decreaseButton  = new JButton("-1");
+        // The set button doubles as the quit button
         this.quitButton  = new JButton("Set");
         
+        // Initialises the button actions
         this.increaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,91 +75,19 @@ public class BetPanel extends JPanel implements Quitable
             }
         });
         
+        // Adds the components to panel
         addComponent(this.currentPlayerLabel, 0,0,2);
         addComponent(this.playerBetLabel,     0,1,2);
         addComponent(this.decreaseButton,     0,2,1);
         addComponent(this.increaseButton,     1,2,1);
         addComponent(this.quitButton,         0,3,2);
         
+        // Updates the panel values
         this.updatePanel();
     }
-    
-    private void addComponent(Component component, int x, int y, int width)
-    {
-        this.c.fill = GridBagConstraints.HORIZONTAL;
-	this.c.gridx = x;
-	this.c.gridy = y;
-        this.c.gridwidth = width;
-        this.add(component, c);
-    }
-    
-    public Player getCurrentPlayer()
-    {
-        // Gets the current player from the model
-        return this.view.getModel().getCurrentPlayer();
-    }
-    
-    public String getCurrentPlayerName()
-    {
-        Player currentPlayer = this.getCurrentPlayer();
-        if (currentPlayer != null)
-            return currentPlayer.getName();
-        return "No Name";
-    }
-    
-    public int getCurrentPlayerMax()
-    {
-        Player currentPlayer = this.getCurrentPlayer();
-        if (currentPlayer != null)
-            return currentPlayer.getScore();
-        return 0;
-    }
-    
-    private boolean canIncrease()
-    {
-        Player currentPlayer = this.getCurrentPlayer();
-        if (currentPlayer == null)
-            return false;
-        
-        if (this.playerBet < this.getCurrentPlayer().getScore())
-        {
-            return true;
-        }
-        return false;
-    }
-    
-    private boolean canDecrease()
-    {
-        Player currentPlayer = this.getCurrentPlayer();
-        if (currentPlayer == null)
-            return false;
-        
-        if (this.playerBet > 0)
-        {
-            return true;
-        }
-        return false;
-    }
-    
-    public void increase()
-    {
-        // Increases the players bet
-        if (canIncrease())
-        {
-            this.playerBet++;
-        }
-        updatePanel();
-    }
-    
-    public void decrease()
-    {
-        if (canDecrease())
-        {
-            this.playerBet--;
-        }
-        updatePanel();
-    }
-    
+
+    // === METHODS ============================================================
+
     public void updatePanel()
     {
         // Updates the panel values
@@ -171,10 +104,93 @@ public class BetPanel extends JPanel implements Quitable
         else
             this.increaseButton.setEnabled(true);
     }
+
+    public Player getCurrentPlayer()
+    {
+        // Gets the current player from the model
+        return this.view.getModel().getCurrentPlayer();
+    }
     
+    public String getCurrentPlayerName()
+    {
+        // Gets the current players name from the model
+        Player currentPlayer = this.getCurrentPlayer();
+        if (currentPlayer != null)
+            return currentPlayer.getName();
+        return "No Name";
+    }
+    
+    public int getCurrentPlayerMax()
+    {
+        // Gets the maximum bet that a player can set
+        Player currentPlayer = this.getCurrentPlayer();
+        if (currentPlayer != null)
+            return currentPlayer.getScore();
+        return 0;
+    }
+    
+    private boolean canIncrease()
+    {
+        // Returns true if the player is able to increase their bet
+        Player currentPlayer = this.getCurrentPlayer();
+        if (currentPlayer == null)
+            return false;
+        
+        if (this.playerBet < this.getCurrentPlayer().getScore())
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean canDecrease()
+    {
+        // Returns true if the player is able to decrease their bet
+        Player currentPlayer = this.getCurrentPlayer();
+        if (currentPlayer == null)
+            return false;
+        
+        if (this.playerBet > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public void increase()
+    {
+        // Increases the players bet and updates the panel
+        if (canIncrease())
+        {
+            this.playerBet++;
+        }
+        updatePanel();
+    }
+    
+    public void decrease()
+    {
+        // Decreases the players bet and updates the panel
+        if (canDecrease())
+        {
+            this.playerBet--;
+        }
+        updatePanel();
+    }
+
+    private void addComponent(JComponent component, int x, int y, int width)
+    {
+        // Adds component to the panel following the GridBagLayout
+        this.c.fill = GridBagConstraints.HORIZONTAL;
+        this.c.gridx = x;
+        this.c.gridy = y;
+        this.c.gridwidth = width;
+        this.add(component, c);
+    }
+
     @Override
     public void quit()
     {
+        // Quits the panel and attempts to update the bet of the current player
         Player currentPlayer = this.getCurrentPlayer();
         if (currentPlayer != null)
         {

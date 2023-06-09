@@ -14,8 +14,9 @@ public class BlackJackGUI
     
     public BlackJackGUI()
     {
+        // Initialises the model and view and passes the model to the view
         model = new BlackJackModel();
-        view = new BlackJackViewGUI(model, this);
+        view = new BlackJackViewGUI(model);
     }
     
     // === METHODS ============================================================
@@ -30,6 +31,7 @@ public class BlackJackGUI
     
     public static void main(String[] args)
     {
+        // Creates a BlackJackGUI instance and calls start to start the program
         BlackJackGUI app = new BlackJackGUI();
         app.start();
     }

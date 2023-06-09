@@ -1,12 +1,12 @@
 package yhd6147.blackjackgui;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -40,14 +40,17 @@ public class LoginPanel extends JPanel implements Quitable
     
     public LoginPanel(BlackJackViewGUI view)
     {
+        // Initialises the login panel components
+        
+        // Calls the JPanel constructor
         super(new GridBagLayout());
         
         this.view = view;
         this.c = new GridBagConstraints();
         
         this.titleLabel = new JLabel("Log into your account");
-        // TODO find a better way to change font.
-        this.titleLabel.setFont(new Font(this.titleLabel.getFont().getName(), Font.PLAIN, this.titleLabel.getFont().getSize()*2));
+        this.titleLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+
         this.loginStatusLabel = new JLabel("Enter your username and password");
         this.usernameLabel = new JLabel("Username:");
         this.passwordLabel = new JLabel("Password:");
@@ -55,9 +58,11 @@ public class LoginPanel extends JPanel implements Quitable
         this.usernameInput = new JTextField(MAX_USERNAME_LENGTH);
         this.passwordInput = new JTextField(MAX_PASSWORD_LENGTH);
         
+        // Initialises the buttons
         this.loginButton = new JButton("Login");
         this.quitButton  = new JButton("Quit");
         
+        // Initialises the button actions
         this.loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +76,7 @@ public class LoginPanel extends JPanel implements Quitable
             }
         });
         
+        // Adds the components to the panel
         addComponent(this.titleLabel,        0,0,3);
         addComponent(this.loginStatusLabel,  0,1,3);
         
@@ -85,29 +91,31 @@ public class LoginPanel extends JPanel implements Quitable
     
     private void login()
     {
+        // Attempts to login the player
         String username = this.usernameInput.getText();
         String password = this.passwordInput.getText();
         
-        this.usernameInput.setText("");
-        this.passwordInput.setText("");
-        
         if (!username.isBlank() && !password.isBlank())
         {
-            // continue
-            this.view.getModel().login(username, password);
-            this.view.openStartPanel();
+            if (this.view.getModel().login(username, password))
+            {
+                this.usernameInput.setText("");
+                this.passwordInput.setText("");
+                this.view.openStartPanel();
+                return;
+            }
         }
-        else
-        {
-            this.loginStatusLabel.setText("Invalid login details");
-        }
+
+        // If login fails
+        this.loginStatusLabel.setText("Invalid login details");
     }
     
-    private void addComponent(Component component, int x, int y, int width)
+    private void addComponent(JComponent component, int x, int y, int width)
     {
+        // Adds component to the panel using GridBagLayout
         this.c.fill = GridBagConstraints.HORIZONTAL;
-	this.c.gridx = x;
-	this.c.gridy = y;
+        this.c.gridx = x;
+        this.c.gridy = y;
         this.c.gridwidth = width;
         this.add(component, c);
     }
@@ -115,10 +123,10 @@ public class LoginPanel extends JPanel implements Quitable
     @Override
     public void quit()
     {
+        // Quits the panel
         if (this.view != null)
         {
             this.view.quit();
         }
     }
-    
 }
